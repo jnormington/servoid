@@ -22,3 +22,12 @@
      tags:
       - configure
       - security
+
+- name: "Daily user setup"
+  hosts: server
+  tags: programs
+  remote_user: "{{user}}"
+  vars_files:
+   - vars/user.yml
+  roles:
+   - role: code_checkout

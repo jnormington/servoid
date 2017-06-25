@@ -1,0 +1,17 @@
+- name: "Ensure dev directory exists"
+  file: >
+   path="{{ansible_env.HOME}}/{{projects_dir}}"
+   recurse=yes
+   state=directory
+   mode=0755
+
+- name: "Ensure git repo checked out"
+  git: >
+   repo="{{item.url}}"
+   dest="{{ansible_env.HOME}}/{{projects_dir}}/{{item.name}}"
+   version="{{item.branch | default('master')}}"
+   force=yes
+   accept_hostkey=yes
+  with_items: "{{git_repos | default([])}}"
+  when: not git_repos is none
+

@@ -1,0 +1,13 @@
+# User is used for main user setup tasks these include
+# user specific tasks suchas cloning code and setting up specific
+# languages
+user: frank
+# This is relative from the home directory
+projects_dir: "dev/projects"
+
+git_repos:
+  # Clone the repo at master branch
+  - { name: "repo", url: "https://github.com/org/repo" }
+  # Clone the repo at test branch
+  - { name: "xpatz", url: "https://github.com/example/repo", branch: "test" }
+
