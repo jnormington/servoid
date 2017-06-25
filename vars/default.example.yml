@@ -1,0 +1,21 @@
+# On first setup of the server you will use root user
+# but as security root login is disabled on first success configuration
+# so this variable with need to be updated to a user with sudo rights
+as_user: root
+
+user_accounts:
+ # Create user with primary group
+ - { name: "helen", default_group: "wheel" }
+ # Create user in several groups with custom primary group
+ - { name: "bill", groups: "wheel,admin,web" }
+ # Create just a standard user
+ - { name: "william" }
+ # Create user with passwordless sudo rights
+ - { name: "fred", with_sudo: yes }
+ # Create user with ssh using current ssh session authorized_keys
+ - { name: "frank", copy_authkeys: yes }
+ # Delete user named bill
+ - { name: "bill", delete: yes }
+ # At minimum at least one user is required with with_sudo and copy_authkeys
+ # otherwise you will not be able to get into your server (as root is disabled)
+ - { name: "sarah", with_sudo: yes, copy_authkeys: yes }

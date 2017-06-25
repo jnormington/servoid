@@ -1,0 +1,42 @@
+- name: "Manage groups"
+  group: >
+   name={{item.name}}
+   system={{item.system | default(false)}}
+   state={{(item.delete|default(false)) | ternary('absent','present')}}
+  with_items: "{{server_groups | default([])}}"
+  when: not server_groups is none
+
+- name: "Manage user accounts"
+  user: >
+   name={{item.name}}
+   group={{item.default_group | default(omit)}}
+   groups={{item.groups | default(omit)}}
+   shell=/bin/bash
+   state={{(item.delete|default(false)) | ternary('absent','present')}}
+  with_items: "{{user_accounts | default([])}}"
+  when: not user_accounts is none
+
+- name: "Copy authorized keys file contents"
+  command: "cat /root/.ssh/authorized_keys"
+  register: authorized_keys
+
+- name: "Copy authorized_keys to user"
+  authorized_key: >
+   user="{{item.name}}"
+   key="{{authorized_keys.stdout}}"
+  with_items: "{{user_accounts | default([])}}"
+  when:
+   - not user_accounts is none
+   - "{{item.copy_authkeys|default(false)}}"
+
+- name: "Allow user to sudo password less"
+  copy: >
+   content="%{{item.name}} ALL=(ALL) NOPASSWD:ALL"
+   dest=/etc/sudoers.d/{{item.name}}
+   owner=root
+   group=root
+   mode=0440
+  with_items: "{{user_accounts | default([])}}"
+  when:
+   - not user_accounts is none
+   - "{{item.with_sudo|default(false)}}"
