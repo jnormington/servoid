@@ -6,8 +6,11 @@
   vars_files:
    - vars/default.yml
   roles:
-    - role: users
-      tags:
-       - configure
-       - users
-
+   - role: users
+     tags:
+      - configure
+      - users
+   - role: firewall
+     tags:
+      - configure
+      - firewall

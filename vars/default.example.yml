@@ -19,3 +19,13 @@ user_accounts:
  # At minimum at least one user is required with with_sudo and copy_authkeys
  # otherwise you will not be able to get into your server (as root is disabled)
  - { name: "sarah", with_sudo: yes, copy_authkeys: yes }
+
+ufw_rules:
+ # Create ufw rule for tcp port 80
+ - { port: 80, proto: tcp }
+ # Create ufw rule for udp port 445
+ - { port: 445, proto: udp }
+ # Create ufw rule for 443 - defaults to tcp
+ - { port: 443 }
+ # Delete rule with port and proto
+ - { port: 1080, proto: tcp, delete: yes }

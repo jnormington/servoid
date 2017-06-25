@@ -1,0 +1,14 @@
+- name: "Open default SSH port"
+  ufw: rule=allow port=ssh proto=tcp
+
+- name: "Manage custom firewall rules"
+  ufw: >
+   rule=allow
+   port={{item.port}}
+   proto={{item.proto | default('tcp')}}
+   delete={{item.delete | default(false)}}
+  with_items: "{{ufw_rules | default([])}}"
+  when: not ufw_rules is none
+
+- name: "Enable firewall"
+  ufw: state=enabled logging=on
