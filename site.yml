@@ -18,3 +18,7 @@
      tags:
       - configure
       - packages
+   - role: security
+     tags:
+      - configure
+      - security
