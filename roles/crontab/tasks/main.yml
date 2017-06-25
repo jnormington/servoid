@@ -1,0 +1,12 @@
+- name: "Ensure crontab setup with jobs"
+  cron: >
+   name={{item.name | default('job')}}
+   day={{item.day | default(omit)}}
+   hour={{item.hour | default(omit)}}
+   job="{{item.cmd}}"
+   minute={{item.minute | default(omit)}}
+   month={{item.month | default(omit)}}
+   state={{(item.delete | default(false)) | ternary('absent','present')}}
+   user={{item.user | default(user)}}
+  with_items: "{{cronjobs | default([])}}"
+  when: not cronjobs is none

@@ -2,12 +2,22 @@
 # user specific tasks suchas cloning code and setting up specific
 # languages
 user: frank
+
 # This is relative from the home directory
 projects_dir: "dev/projects"
 
 git_repos:
-  # Clone the repo at master branch
-  - { name: "repo", url: "https://github.com/org/repo" }
-  # Clone the repo at test branch
-  - { name: "xpatz", url: "https://github.com/example/repo", branch: "test" }
+ # Clone the repo at master branch
+ - { name: "repo", url: "https://github.com/org/repo" }
+ # Clone the repo at test branch
+ - { name: "xpatz", url: "https://github.com/example/repo", branch: "test" }
 
+cronjobs:
+ # Daily cronjob
+ - { name: "list files", cmd: "ls -lR /", minute: "0", hour: "0", day: "*" }
+ # Every 10 minutes
+ - { name: "logs", cmd: "command here", minute: "*/10" }
+ # Every hour
+ - { name: "logs 2", cmd: "command here", minute: "0", hour: "*/1" }
+ # Every day at 2:30 hrs
+ - { name: "logs 3", cmd: "command here", hour: "2", minute: "30" }
