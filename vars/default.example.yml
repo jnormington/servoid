@@ -3,6 +3,14 @@
 # so this variable with need to be updated to a user with sudo rights
 as_user: root
 
+server_groups:
+ # Creates group named helen
+ - { name: "helen" }
+ # Creates system group named web
+ - { name: "web", system: yes }
+ # Delete group named rvm
+ - { name: "rvm", delete: yes }
+
 user_accounts:
  # Create user with primary group
  - { name: "helen", default_group: "wheel" }
