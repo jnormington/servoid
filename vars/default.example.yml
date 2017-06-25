@@ -29,3 +29,15 @@ ufw_rules:
  - { port: 443 }
  # Delete rule with port and proto
  - { port: 1080, proto: tcp, delete: yes }
+
+apt_packages:
+ # Ensure git installed
+ - { name: "git" }
+ # Ensure curl is installed and latest package
+ - { name: "curl", ensure_latest: yes }
+ # Delete package named nodejs
+ - { name: "nodejs", delete: yes }
+
+apt_upgrade:
+ # Supports dist full or safe
+ type: 'safe'

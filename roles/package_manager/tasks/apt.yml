@@ -1,0 +1,31 @@
+- name: "Update cache"
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: "Install packages"
+  apt: >
+   name={{item.name}}
+   state={{(item.ensure_latest | default(false)) | ternary('latest','present') }}
+  with_items: "{{apt_packages | default([])}}"
+  when:
+   - not apt_packages is none
+   - "not {{item.delete | default(false)}}"
+
+- name: "Purge packages"
+  apt: >
+   name={{item.name}}
+   state=absent
+   purge=yes
+  with_items: "{{apt_packages | default([])}}"
+  when:
+   - not apt_packages is none
+   - "{{item.delete | default(false)}}"
+
+- name: "Install aptitude to perform upgrade"
+  apt: name=aptitude state=present
+  when:
+   - "{{apt_upgrade | default(false)}}"
+   - "{{apt_upgrade.type|default(false) != 'dist' }}"
+
+- name: "Perform upgrade"
+  apt: upgrade={{apt_upgrade.type|default('no')}}
+  when: "{{apt_upgrade | default(false)}}"

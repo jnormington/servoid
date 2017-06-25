@@ -14,3 +14,7 @@
      tags:
       - configure
       - firewall
+   - role: package_manager
+     tags:
+      - configure
+      - packages
