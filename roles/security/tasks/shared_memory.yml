@@ -4,4 +4,3 @@
    regexp="^tmpfs.*/run/shm"
    line="tmpfs  /run/shm    tmpfs     defaults,noexec,nosuid    0 0"
    state=present
-  notify: "Restart server"
