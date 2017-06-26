@@ -1,10 +1,10 @@
-- name: "Configure server"
+- name: "Ensure server configured"
   hosts: server
   remote_user: "{{as_user}}"
   become: yes
   become_method: sudo
   vars_files:
-   - vars/default.yml
+   - vars/server.yml
   roles:
    - role: users
      tags:
@@ -23,7 +23,7 @@
       - configure
       - security
 
-- name: "Daily user setup"
+- name: "Ensure user workspace setup"
   hosts: server
   tags: programs
   remote_user: "{{user}}"
