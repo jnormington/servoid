@@ -1,29 +1,21 @@
 - name: 'Digital Ocean droplet playbook'
   hosts: 127.0.0.1
   connection: local
+  vars:
+   droplet_image: "ubuntu-16-04-x64"
+   droplet_region: "lon1"
+   droplet_size: "512mb"
   vars_prompt:
-   - name: "ssh_key"
-     private: no
-     prompt: "Whats you ssh key filename ? (if not found we generate new rsa-4096 key)"
-     default: "id_rsa"
    - name: "api_token"
      private: no
      prompt: "Whats your digital ocean api token ?"
+   - name: "ssh_key"
+     private: no
+     prompt: "What ssh key to use ? (if new file we will generate key)"
+     default: "id_rsa"
    - name: "droplet_name"
      private: no
      prompt: "Name your droplet"
-   - name: "droplet_image"
-     private: no
-     prompt: "What droplet image do want for your droplet ?"
-     default: "ubuntu-16-04-x64"
-   - name: "droplet_size"
-     private: no
-     prompt: "What size do you want for your droplet ?"
-     default: "512mb"
-   - name: "droplet_region"
-     private: no
-     prompt: "What region do you want you droplet in ?"
-     default: "lon1"
   tasks:
    - name: "Check pip installed"
      command: "pip"
@@ -78,6 +70,6 @@
 
    - name: "Output droplet host to hosts file"
      lineinfile: >
-      dest={{playbook_dir}}/hosts
+      dest={{lookup('env', 'PWD')}}/hosts
       line="[server]\n{{droplet.droplet.ip_address}} ansible_python_interpreter=python3"
       state=present
